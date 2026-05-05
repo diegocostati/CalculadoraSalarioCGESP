@@ -175,6 +175,7 @@ function calcular() {
     <strong>Resultado da simulação</strong><br><br>
 
     Subsídio: ${formatarMoeda(subsidio)} <br>
+    Auxílio Alimentação: ${formatarMoeda(AUXILIO)} <br>
     Regime: ${regime === "pre2013" ? "Antes de 21/01/2013" : "A partir de 21/01/2013"} <br>
     Previdência obrigatória: ${formatarMoeda(previdenciaObrigatoria)} <br>
     IAMSPE: ${formatarMoeda(iamspe)} <br>
@@ -190,8 +191,8 @@ function calcular() {
     Servidor: ${formatarMoeda(prevComp)} <br>
     Patrocinador: ${formatarMoeda(contrapartida)} <br><br>
 
-    <strong>Líquido: ${formatarMoeda(liquido)}</strong><br>
-    <strong>Líquido + auxílio: ${formatarMoeda(liquidoComAux)}</strong>
+    <strong>Salário Líquido: ${formatarMoeda(liquido)}</strong><br>
+    <strong>Salário Líquido + Auxílio Alimentação: ${formatarMoeda(liquidoComAux)}</strong>
   `;
 }
 
