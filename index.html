@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora CGE-SP</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .box { margin-bottom: 15px; }
+    .resultado { margin-top: 20px; font-weight: bold; }
+    input, select { padding: 5px; margin: 5px; }
+  </style>
+</head>
+<body>
+
+<h2>Calculadora de Salário Líquido - CGE/SP</h2>
+
+<div class="box">
+  Nível:
+  <select id="nivel"></select>
+
+  Categoria:
+  <select id="categoria"></select>
+</div>
+
+<div class="box">
+  IAMSPE (%):
+  <select id="iamspe">
+    <option value="0">0%</option>
+    <option value="1">1%</option>
+    <option value="2" selected>2%</option>
+    <option value="3">3%</option>
+  </select>
+</div>
+
+<h3>Modo Avançado</h3>
+
+<div class="box">
+  Dependentes:
+  <input type="number" id="dependentes" value="0">
+
+  Pensão (%):
+  <input type="number" id="pensao" value="0">
+
+  Prev. Complementar (%):
+  <input type="number" id="prevComp" value="0">
+
+  Outros descontos:
+  <input type="number" id="outros" value="0">
+</div>
+
+<button onclick="calcular()">Calcular</button>
+
+<div class="resultado" id="resultado"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
