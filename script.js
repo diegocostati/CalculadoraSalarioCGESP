@@ -196,6 +196,5 @@ function calcular() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  popular();
   calcular();
 });
