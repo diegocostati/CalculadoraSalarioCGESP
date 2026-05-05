@@ -123,5 +123,23 @@
 
   <script src="script.js"></script>
 
+  <div style="text-align:center; margin-top:30px; color:#6b7280;">
+  <small>
+    👀 Este simulador já foi utilizado <strong id="contador">...</strong> vezes
+  </small>
+</div>
+
+<script>
+fetch("https://api.countapi.xyz/hit/calculadora-cge-sp-diego/visitas")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("contador").innerText =
+      data.value.toLocaleString("pt-BR");
+  })
+  .catch(() => {
+    document.getElementById("contador").innerText = "—";
+  });
+</script>
+  
 </body>
 </html>
