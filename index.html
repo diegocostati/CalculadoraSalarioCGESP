@@ -1,58 +1,76 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Calculadora CGE-SP</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    .box { margin-bottom: 15px; }
-    .resultado { margin-top: 20px; font-weight: bold; }
-    input, select { padding: 5px; margin: 5px; }
-  </style>
-</head>
 <body>
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="tag">CGE-SP</p>
+        <h1>Calculadora de Salário Líquido</h1>
+        <p class="subtitle">
+          Simule subsídio, IR, IAMSPE, previdência, pensão e líquido com auxílio.
+        </p>
+      </div>
+    </section>
 
-<h2>Calculadora de Salário Líquido - CGE/SP</h2>
+    <section class="card">
+      <h2>Dados da carreira</h2>
 
-<div class="box">
-  Nível:
-  <select id="nivel"></select>
+      <div class="grid">
+        <label>
+          Nível
+          <select id="nivel"></select>
+        </label>
 
-  Categoria:
-  <select id="categoria"></select>
-</div>
+        <label>
+          Categoria
+          <select id="categoria"></select>
+        </label>
 
-<div class="box">
-  IAMSPE (%):
-  <select id="iamspe">
-    <option value="0">0%</option>
-    <option value="1">1%</option>
-    <option value="2" selected>2%</option>
-    <option value="3">3%</option>
-  </select>
-</div>
+        <label>
+          IAMSPE (%)
+          <select id="iamspe">
+            <option value="0">0%</option>
+            <option value="0.5">0,5%</option>
+            <option value="1">1%</option>
+            <option value="1.5">1,5%</option>
+            <option value="2" selected>2%</option>
+            <option value="2.5">2,5%</option>
+            <option value="3">3%</option>
+          </select>
+        </label>
+      </div>
+    </section>
 
-<h3>Modo Avançado</h3>
+    <section class="card">
+      <h2>Modo avançado</h2>
 
-<div class="box">
-  Dependentes:
-  <input type="number" id="dependentes" value="0">
+      <div class="grid">
+        <label>
+          Dependentes
+          <input type="number" id="dependentes" value="0" min="0">
+        </label>
 
-  Pensão (%):
-  <input type="number" id="pensao" value="0">
+        <label>
+          Pensão alimentícia (%)
+          <input type="number" id="pensao" value="0" min="0" step="0.1">
+        </label>
 
-  Prev. Complementar (%):
-  <input type="number" id="prevComp" value="0">
+        <label>
+          Previdência complementar (%)
+          <input type="number" id="prevComp" value="0" min="0" step="0.1">
+        </label>
 
-  Outros descontos:
-  <input type="number" id="outros" value="0">
-</div>
+        <label>
+          Outros descontos
+          <input type="number" id="outros" value="0" min="0" step="0.01">
+        </label>
+      </div>
 
-<button onclick="calcular()">Calcular</button>
+      <button onclick="calcular()">Calcular salário líquido</button>
+    </section>
 
-<div class="resultado" id="resultado"></div>
+    <section class="result-card" id="resultado">
+      <p>Preencha os dados e clique em calcular.</p>
+    </section>
+  </main>
 
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
-</html>
