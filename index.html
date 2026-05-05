@@ -19,18 +19,18 @@
       <h1>Calculadora de Salário Líquido</h1>
 
       <p class="subtitle">
-        Simule salário líquido com IR, IAMSPE, previdência, pensão e previdência complementar.
+        Simule o salário líquido do Auditor de Controle Interno da CGE-SP. Inclua descontos de IAMSPE, previdências diversas, pensão alimentação e outros descontos(consignado e etc).
       </p>
 
       <img src="auditynho2.png" alt="Auditynho" class="hero-img">
     </section>
 
     <section class="card">
-      <h2>Dados da carreira</h2>
+      <h2>Dados Básicos</h2>
 
       <div class="grid">
         <label>
-          Ingresso no serviço público
+          Ingresso no serviço público (Reforma previdência RPPS)
           <select id="regimePrevidencia" onchange="calcular()">
             <option value="pos2013" selected>A partir de 21/01/2013</option>
             <option value="pre2013">Antes de 21/01/2013</option>
@@ -40,20 +40,20 @@
         <label>
   Nível
   <select id="nivel" onchange="calcular()">
-    <option value="I" selected>I</option>
+    <option value="I" selected>I (inicial)</option>
     <option value="II">II</option>
     <option value="III">III</option>
-    <option value="IV">IV</option>
+    <option value="IV">IV (final)</option>
   </select>
 </label>
 
 <label>
   Categoria
   <select id="categoria" onchange="calcular()">
-    <option value="1" selected>1</option>
+    <option value="1" selected>1 (inicial)</option>
     <option value="2">2</option>
     <option value="3">3</option>
-    <option value="4">4</option>
+    <option value="4">4 (final)</option>
   </select>
 </label>
 
@@ -69,7 +69,7 @@
     </section>
 
     <section class="card">
-      <h2>Modo avançado</h2>
+      <h2>Dados avançados</h2>
 
       <div class="grid">
         <label>
