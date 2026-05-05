@@ -12,53 +12,51 @@
 <body>
 
   <main class="container">
-    
-<section class="hero">
 
-  <p class="tag">CGE-SP</p>
+    <section class="hero">
+      <p class="tag">CGE-SP</p>
 
-  <h1>Calculadora de Salário Líquido</h1>
+      <h1>Calculadora de Salário Líquido</h1>
 
-  <p class="subtitle">
-    Simule salário líquido com IR, IAMSPE, previdência, pensão e previdência complementar.
-  </p>
+      <p class="subtitle">
+        Simule salário líquido com IR, IAMSPE, previdência, pensão e previdência complementar.
+      </p>
 
-  <img src="auditynho2.png" alt="Auditynho" class="hero-img">
-
-</section>
+      <img src="auditynho2.png" alt="Auditynho" class="hero-img">
+    </section>
 
     <section class="card">
-  <h2>Dados da carreira</h2>
+      <h2>Dados da carreira</h2>
 
-  <div class="grid">
-    <label>
-      Ingresso no serviço público
-      <select id="regimePrevidencia" onchange="alternarRegimePrevidencia()">
-        <option value="pos2013" selected>A partir de 21/01/2013</option>
-        <option value="pre2013">Antes de 21/01/2013</option>
-      </select>
-    </label>
+      <div class="grid">
+        <label>
+          Ingresso no serviço público
+          <select id="regimePrevidencia" onchange="calcular()">
+            <option value="pos2013" selected>A partir de 21/01/2013</option>
+            <option value="pre2013">Antes de 21/01/2013</option>
+          </select>
+        </label>
 
-    <label>
-      Nível
-      <select id="nivel"></select>
-    </label>
+        <label>
+          Nível
+          <select id="nivel" onchange="calcular()"></select>
+        </label>
 
-    <label>
-      Categoria
-      <select id="categoria"></select>
-    </label>
+        <label>
+          Categoria
+          <select id="categoria" onchange="calcular()"></select>
+        </label>
 
-    <label>
-      IAMSPE (%)
-      <select id="iamspe">
-        <option value="0">0%</option>
-        <option value="1">1%</option>
-        <option value="2" selected>2%</option>
-        <option value="3">3%</option>
-      </select>
-    </label>
-  </div>
+        <label>
+          IAMSPE (%)
+          <select id="iamspe" onchange="calcular()">
+            <option value="0">0%</option>
+            <option value="1">1%</option>
+            <option value="2" selected>2%</option>
+            <option value="3">3%</option>
+          </select>
+        </label>
+      </div>
     </section>
 
     <section class="card">
@@ -67,17 +65,17 @@
       <div class="grid">
         <label>
           Dependentes
-          <input type="number" id="dependentes" value="0" min="0">
+          <input type="number" id="dependentes" value="0" min="0" oninput="calcular()">
         </label>
 
         <label>
           Pensão (%)
-          <input type="number" id="pensao" value="0" min="0" step="0.1">
+          <input type="number" id="pensao" value="0" min="0" step="0.1" oninput="calcular()">
         </label>
 
         <label>
           Outros descontos
-          <input type="number" id="outros" value="0" min="0" step="0.01">
+          <input type="number" id="outros" value="0" min="0" step="0.01" oninput="calcular()">
         </label>
       </div>
 
@@ -96,7 +94,7 @@
 
         <label>
           Percentual (%)
-          <input type="number" id="prevComp" value="0" min="0" max="7.5" step="0.1">
+          <input type="number" id="prevComp" value="0" min="0" max="7.5" step="0.1" oninput="calcular()">
         </label>
 
         <label>
@@ -105,7 +103,7 @@
         </label>
       </div>
 
-      <button onclick="calcular()">Calcular salário líquido</button>
+      <button type="button" onclick="calcular()">Calcular salário líquido</button>
     </section>
 
     <section class="result-card" id="resultado">
