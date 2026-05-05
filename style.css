@@ -12,15 +12,18 @@ body {
 .container {
   max-width: 1050px;
   margin: 0 auto;
-  padding: 16px 10px; /* antes 32px 18px */
+  padding: 16px 10px;
 }
 
+/* HERO */
 .hero {
+  position: relative;
   background: linear-gradient(135deg, #e5e7eb, #cbd5e1);
   color: #111827;
-  padding: 20px; /* antes 36px */
+  padding: 20px;
+  padding-right: 110px; /* espaço pro mascote */
   border-radius: 18px;
-  margin-bottom: 12px; /* antes 24px */
+  margin-bottom: 12px;
   box-shadow: 0 8px 18px rgba(0,0,0,0.12);
 }
 
@@ -36,21 +39,22 @@ body {
 
 h1 {
   margin: 0;
-  font-size: 28px; /* antes 34px */
+  font-size: 28px;
 }
 
 .subtitle {
   font-size: 15px;
-  max-width: 700px;
+  max-width: 600px;
   opacity: 0.9;
 }
 
+/* CARDS */
 .card,
 .result-card {
   background: white;
-  padding: 16px; /* antes 24px */
+  padding: 16px;
   border-radius: 14px;
-  margin-bottom: 12px; /* antes 18px */
+  margin-bottom: 12px;
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
 }
 
@@ -72,10 +76,11 @@ hr {
   margin: 16px 0 4px;
 }
 
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px; /* antes 18px */
+  gap: 12px;
 }
 
 label {
@@ -83,11 +88,12 @@ label {
   font-size: 13px;
 }
 
+/* INPUTS */
 input,
 select {
   width: 100%;
   margin-top: 6px;
-  padding: 8px; /* antes 12px */
+  padding: 8px;
   border: 1px solid #cbd5e1;
   border-radius: 10px;
   font-size: 14px;
@@ -100,10 +106,11 @@ input:disabled {
   cursor: not-allowed;
 }
 
+/* BUTTON */
 button {
   margin-top: 14px;
   width: 100%;
-  padding: 12px; /* antes 15px */
+  padding: 12px;
   border: none;
   border-radius: 10px;
   background: #6b7280;
@@ -119,8 +126,9 @@ button:hover {
   transform: translateY(-1px);
 }
 
+/* RESULTADO */
 .result-card {
-  border-left: 6px solid #9ca3af; /* antes 8px */
+  border-left: 6px solid #9ca3af;
   font-size: 15px;
   line-height: 1.6;
 }
@@ -129,24 +137,17 @@ button:hover {
   color: #374151;
 }
 
-.hero-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.hero-text {
-  flex: 1;
-}
-
+/* MASCOTE FIXO */
 .hero-img {
-  width: 100px; /* antes 130px */
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 90px;
   height: auto;
-  flex-shrink: 0;
   filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
 }
 
+/* RESPONSIVO */
 @media (max-width: 760px) {
   .grid {
     grid-template-columns: 1fr;
@@ -154,19 +155,16 @@ button:hover {
 
   .hero {
     padding: 16px;
+    padding-right: 90px;
   }
 
   h1 {
     font-size: 24px;
   }
 
-  .hero-content {
-    flex-direction: column;
-    text-align: center;
-  }
-
   .hero-img {
-    width: 80px;
-    margin-top: 6px;
+    width: 70px;
+    top: 10px;
+    right: 10px;
   }
 }
