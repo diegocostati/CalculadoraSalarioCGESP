@@ -19,51 +19,51 @@
       <h1>Calculadora de Salário Líquido (Auditor)</h1>
 
       <p class="subtitle">
-        Simule o salário líquido do Auditor de Controle Interno da CGE-SP. Inclua descontos de IAMSPE, Previdências, pensão e outros descontos.
+        Simule o salário líquido do Auditor de Controle Interno da CGE-SP. Inclua descontos de IAMSPE, previdências, pensão e outros descontos.
       </p>
 
       <img src="auditynho2.png" alt="Auditynho" class="hero-img">
     </section>
 
     <section class="card">
-      <h2>Dados Básicos</h2>
+      <h2>Dados básicos</h2>
 
       <div class="grid">
         <label>
           Ingresso no serviço público (Reforma RPPS)
-          <select id="regimePrevidencia" onchange="calcular()">
+          <select id="regimePrevidencia" onchange="alternarRegimePrevidencia()">
             <option value="pos2013" selected>Depois de 21/01/2013</option>
             <option value="pre2013">Antes de 21/01/2013</option>
           </select>
         </label>
 
         <label>
-  Nível na Carreira (I a IV)
-  <select id="nivel" onchange="calcular()">
-    <option value="I" selected>I (inicial)</option>
-    <option value="II">II</option>
-    <option value="III">III</option>
-    <option value="IV">IV (final)</option>
-  </select>
-</label>
-
-<label>
-  Categoria na Carreira (1 a 4)
-  <select id="categoria" onchange="calcular()">
-    <option value="1" selected>1 (inicial)</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4 (final)</option>
-  </select>
-</label>
+          Nível na carreira
+          <select id="nivel" onchange="calcular()">
+            <option value="I" selected>I (inicial)</option>
+            <option value="II">II</option>
+            <option value="III">III</option>
+            <option value="IV">IV (final)</option>
+          </select>
+        </label>
 
         <label>
-          IAMSPE (%)
+          Categoria na carreira
+          <select id="categoria" onchange="calcular()">
+            <option value="1" selected>1 (inicial)</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 (final)</option>
+          </select>
+        </label>
+
+        <label>
+          IAMSPE - titular
           <select id="iamspe" onchange="calcular()">
-  <option value="0">0% (não contribuir)</option>
-  <option value="2" selected>2% (Títular menor que 59 anos)</option>
-  <option value="3">3% (Títular maior que 59 anos)</option>
-</select>
+            <option value="0">0% (não contribuir)</option>
+            <option value="2" selected>2% (titular menor que 59 anos)</option>
+            <option value="3">3% (titular 59 anos ou mais)</option>
+          </select>
         </label>
       </div>
     </section>
@@ -73,7 +73,7 @@
 
       <div class="grid">
         <label>
-          Dependentes
+          Dependentes IR
           <input type="number" id="dependentes" value="0" min="0" oninput="calcular()">
         </label>
 
@@ -90,26 +90,54 @@
 
       <hr>
 
-      <h3>Previdência complementar</h3>
+      <h3>IAMSPE - beneficiários e agregados</h3>
 
       <div class="grid">
         <label>
-          Deseja contribuir?
-          <select id="usaPrevComp" onchange="alternarPrevComp()">
-            <option value="nao" selected>Não</option>
-            <option value="sim">Sim</option>
-          </select>
+          Beneficiários &lt; 59 anos
+          <input type="number" id="benefMenor59" value="0" min="0" max="4" oninput="calcular()">
         </label>
 
         <label>
-          Percentual (%)
-          <input type="number" id="prevComp" value="0" min="0" max="7.5" step="0.1" oninput="calcular()">
+          Beneficiários 59+ anos
+          <input type="number" id="benefMaior59" value="0" min="0" max="4" oninput="calcular()">
         </label>
 
         <label>
-          Teto do INSS
-          <input type="text" value="R$ 8.475,55" disabled>
+          Agregados &lt; 59 anos
+          <input type="number" id="agregMenor59" value="0" min="0" max="4" oninput="calcular()">
         </label>
+
+        <label>
+          Agregados 59+ anos
+          <input type="number" id="agregMaior59" value="0" min="0" max="4" oninput="calcular()">
+        </label>
+      </div>
+
+      <div id="blocoPrevComp">
+        <hr>
+
+        <h3>Previdência complementar</h3>
+
+        <div class="grid">
+          <label>
+            Deseja contribuir?
+            <select id="usaPrevComp" onchange="alternarPrevComp()">
+              <option value="nao" selected>Não</option>
+              <option value="sim">Sim</option>
+            </select>
+          </label>
+
+          <label>
+            Percentual (%)
+            <input type="number" id="prevComp" value="0" min="0" max="7.5" step="0.1" oninput="calcular()">
+          </label>
+
+          <label>
+            Teto do INSS
+            <input type="text" value="R$ 8.475,55" disabled>
+          </label>
+        </div>
       </div>
 
       <button type="button" onclick="calcular()">Calcular salário líquido</button>
@@ -119,15 +147,14 @@
       <p>Preencha os dados e clique em calcular.</p>
     </section>
 
+    <div style="text-align:center; margin-top:10px;">
+      <div class="powr-hit-counter" id="41080198"></div>
+    </div>
+
   </main>
 
   <script src="script.js"></script>
+  <script src="https://www.powr.io/powr.js?platform=html"></script>
 
-<div style="text-align:center; margin-top:10px;">
-  <div class="powr-hit-counter" id="41080198"></div>
-</div>
-
-<script src="https://www.powr.io/powr.js?platform=html"></script>
-  
 </body>
 </html>
