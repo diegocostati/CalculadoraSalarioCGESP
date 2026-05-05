@@ -33,29 +33,15 @@ function formatarMoeda(valor) {
   });
 }
 
-function popular() {
-  const selNivel = document.getElementById("nivel");
-  const selCategoria = document.getElementById("categoria");
+function limitarNumero(id, min, max) {
+  const campo = document.getElementById(id);
+  let valor = parseInt(campo.value) || 0;
 
-  selNivel.innerHTML = "";
-  selCategoria.innerHTML = "";
+  if (valor < min) valor = min;
+  if (valor > max) valor = max;
 
-  ["I", "II", "III", "IV"].forEach(nivel => {
-    const option = document.createElement("option");
-    option.value = nivel;
-    option.textContent = nivel;
-    selNivel.appendChild(option);
-  });
-
-  [1, 2, 3, 4].forEach(cat => {
-    const option = document.createElement("option");
-    option.value = cat;
-    option.textContent = cat;
-    selCategoria.appendChild(option);
-  });
-
-  selNivel.value = "I";
-  selCategoria.value = "1";
+  campo.value = valor;
+  return valor;
 }
 
 function alternarPrevComp() {
@@ -63,6 +49,22 @@ function alternarPrevComp() {
   const campo = document.getElementById("prevComp");
 
   campo.value = usaPrevComp === "sim" ? 7.5 : 0;
+  calcular();
+}
+
+function alternarRegimePrevidencia() {
+  const regime = document.getElementById("regimePrevidencia").value;
+  const blocoPrevComp = document.getElementById("blocoPrevComp");
+  const usaPrevComp = document.getElementById("usaPrevComp");
+  const prevComp = document.getElementById("prevComp");
+
+  if (regime === "pre2013") {
+    blocoPrevComp.style.display = "none";
+    usaPrevComp.value = "nao";
+    prevComp.value = 0;
+  } else {
+    blocoPrevComp.style.display = "block";
+  }
 
   calcular();
 }
@@ -76,8 +78,6 @@ function calcularIR(base) {
 }
 
 function calcularPrevidenciaRPPSProgressiva(base) {
-  let contribuicao = 0;
-
   const faixas = [
     { limite: 1621.00, aliquota: 0.11 },
     { limite: 4174.58, aliquota: 0.12 },
@@ -85,6 +85,7 @@ function calcularPrevidenciaRPPSProgressiva(base) {
     { limite: Infinity, aliquota: 0.16 }
   ];
 
+  let contribuicao = 0;
   let anterior = 0;
 
   for (const faixa of faixas) {
@@ -107,10 +108,16 @@ function calcular() {
   const cat = parseInt(document.getElementById("categoria").value) || 1;
   const regime = document.getElementById("regimePrevidencia").value;
 
-  const iamspePerc = parseFloat(document.getElementById("iamspe").value) / 100;
+  const iamspePercTitular = parseFloat(document.getElementById("iamspe").value) / 100;
+
   const dependentes = parseInt(document.getElementById("dependentes").value) || 0;
   const pensaoPerc = (parseFloat(document.getElementById("pensao").value) || 0) / 100;
   const outros = parseFloat(document.getElementById("outros").value) || 0;
+
+  const benefMenor59 = limitarNumero("benefMenor59", 0, 4);
+  const benefMaior59 = limitarNumero("benefMaior59", 0, 4);
+  const agregMenor59 = limitarNumero("agregMenor59", 0, 4);
+  const agregMaior59 = limitarNumero("agregMaior59", 0, 4);
 
   let prevCompPercentual = parseFloat(document.getElementById("prevComp").value) || 0;
 
@@ -140,7 +147,21 @@ function calcular() {
       ? calcularPrevidenciaRPPSProgressiva(subsidio)
       : PREVIDENCIA_FIXA;
 
-  const iamspe = subsidio * iamspePerc;
+  const iamspeTitular = subsidio * iamspePercTitular;
+
+  const iamspeBenefMenor59 = subsidio * 0.005 * benefMenor59;
+  const iamspeBenefMaior59 = subsidio * 0.01 * benefMaior59;
+  const iamspeAgregMenor59 = subsidio * 0.02 * agregMenor59;
+  const iamspeAgregMaior59 = subsidio * 0.03 * agregMaior59;
+
+  const iamspeBeneficiarios = iamspeBenefMenor59 + iamspeBenefMaior59;
+  const iamspeAgregados = iamspeAgregMenor59 + iamspeAgregMaior59;
+
+  const iamspe =
+    iamspeTitular +
+    iamspeBeneficiarios +
+    iamspeAgregados;
+
   const pensao = subsidio * pensaoPerc;
 
   const basePrevComp = Math.max(0, subsidio - TETO_INSS);
@@ -170,25 +191,35 @@ function calcular() {
 
   const liquidoComAux = liquido + AUXILIO;
 
+  const blocoPrevCompResultado = regime === "pos2013" ? `
+    <strong>Previdência complementar</strong><br>
+    Base: ${formatarMoeda(basePrevComp)} <br>
+    Percentual: ${prevCompPercentual.toFixed(1).replace(".", ",")}% <br>
+    Servidor: ${formatarMoeda(prevComp)} <br>
+    Patrocinador: ${formatarMoeda(contrapartida)} <br><br>
+  ` : "";
+
   document.getElementById("resultado").innerHTML = `
     <strong>Resultado da simulação</strong><br><br>
 
     Subsídio: ${formatarMoeda(subsidio)} <br>
     Auxílio Alimentação: ${formatarMoeda(AUXILIO)} <br>
     Regime: ${regime === "pre2013" ? "Antes de 21/01/2013" : "A partir de 21/01/2013"} <br>
-    Previdência obrigatória: ${formatarMoeda(previdenciaObrigatoria)} <br>
-    IAMSPE: ${formatarMoeda(iamspe)} <br>
-    Dedução dependentes: ${formatarMoeda(deducaoDep)} <br>
+    Previdência obrigatória: ${formatarMoeda(previdenciaObrigatoria)} <br><br>
+
+    <strong>IAMSPE</strong><br>
+    Titular: ${formatarMoeda(iamspeTitular)} <br>
+    Beneficiários: ${formatarMoeda(iamspeBeneficiarios)} <br>
+    Agregados: ${formatarMoeda(iamspeAgregados)} <br>
+    Total IAMSPE: ${formatarMoeda(iamspe)} <br><br>
+
+    Dedução dependentes IR: ${formatarMoeda(deducaoDep)} <br>
     Base IR: ${formatarMoeda(baseIR)} <br>
     IR: ${formatarMoeda(ir)} <br>
     Pensão: ${formatarMoeda(pensao)} <br>
     Outros descontos: ${formatarMoeda(outros)} <br><br>
 
-    <strong>Previdência complementar</strong><br>
-    Base: ${formatarMoeda(basePrevComp)} <br>
-    Percentual: ${prevCompPercentual.toFixed(1).replace(".", ",")}% <br>
-    Servidor: ${formatarMoeda(prevComp)} <br>
-    Patrocinador: ${formatarMoeda(contrapartida)} <br><br>
+    ${blocoPrevCompResultado}
 
     <strong>Salário Líquido: ${formatarMoeda(liquido)}</strong><br>
     <strong>Salário Líquido + Auxílio Alimentação: ${formatarMoeda(liquidoComAux)}</strong>
@@ -196,5 +227,5 @@ function calcular() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  calcular();
+  alternarRegimePrevidencia();
 });
