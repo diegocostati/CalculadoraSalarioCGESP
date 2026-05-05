@@ -27,6 +27,8 @@ const DEDUCAO_DEP = 189.59;
 function popular() {
   const niveis = [...new Set(tabela.map(t=>t.nivel))];
   const selNivel = document.getElementById("nivel");
+  const selCategoria = document.getElementById("categoria");
+
   niveis.forEach(n=>{
     let o = document.createElement("option");
     o.value = n;
@@ -38,7 +40,7 @@ function popular() {
     let o = document.createElement("option");
     o.value = i;
     o.text = i;
-    categoria.appendChild(o);
+    selCategoria.appendChild(o);
   }
 }
 
@@ -89,14 +91,16 @@ function calcular(){
 
   const liquidoComAux = liquido + AUXILIO;
 
-  document.getElementById("resultado").innerHTML = `
-    Subsídio: R$ ${subsidiο.toFixed(2)} <br>
-    IAMSPE: R$ ${iamspe.toFixed(2)} <br>
-    IR: R$ ${ir.toFixed(2)} <br>
-    Pensão: R$ ${pensao.toFixed(2)} <br>
-    Líquido: R$ ${liquido.toFixed(2)} <br>
-    Líquido + Aux: R$ ${liquidoComAux.toFixed(2)}
-  `;
+ document.getElementById("resultado").innerHTML = `
+  Subsídio: R$ ${subsidio.toFixed(2)} <br>
+  IAMSPE: R$ ${iamspe.toFixed(2)} <br>
+  IR: R$ ${ir.toFixed(2)} <br>
+  Pensão: R$ ${pensao.toFixed(2)} <br>
+  Previdência Complementar: R$ ${prevComp.toFixed(2)} <br>
+  Outros descontos: R$ ${outros.toFixed(2)} <br>
+  Líquido: R$ ${liquido.toFixed(2)} <br>
+  Líquido + Aux: R$ ${liquidoComAux.toFixed(2)}
+`;
 }
 
 popular();
