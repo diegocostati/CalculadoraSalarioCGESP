@@ -28,29 +28,37 @@
 </section>
 
     <section class="card">
-      <h2>Dados da carreira</h2>
+  <h2>Dados da carreira</h2>
 
-      <div class="grid">
-        <label>
-          Nível
-          <select id="nivel"></select>
-        </label>
+  <div class="grid">
+    <label>
+      Ingresso no serviço público
+      <select id="regimePrevidencia" onchange="alternarRegimePrevidencia()">
+        <option value="pos2013" selected>A partir de 21/01/2013</option>
+        <option value="pre2013">Antes de 21/01/2013</option>
+      </select>
+    </label>
 
-        <label>
-          Categoria
-          <select id="categoria"></select>
-        </label>
+    <label>
+      Nível
+      <select id="nivel"></select>
+    </label>
 
-        <label>
-          IAMSPE (%)
-          <select id="iamspe">
-            <option value="0">0%</option>
-            <option value="1">1%</option>
-            <option value="2" selected>2%</option>
-            <option value="3">3%</option>
-          </select>
-        </label>
-      </div>
+    <label>
+      Categoria
+      <select id="categoria"></select>
+    </label>
+
+    <label>
+      IAMSPE (%)
+      <select id="iamspe">
+        <option value="0">0%</option>
+        <option value="1">1%</option>
+        <option value="2" selected>2%</option>
+        <option value="3">3%</option>
+      </select>
+    </label>
+  </div>
     </section>
 
     <section class="card">
