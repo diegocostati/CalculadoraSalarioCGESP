@@ -141,3 +141,34 @@ button:hover {
     font-size: 28px;
   }
 }
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-img {
+  width: 130px;
+  height: auto;
+  flex-shrink: 0;
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.25));
+}
+
+@media (max-width: 760px) {
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-img {
+    width: 95px;
+    margin-top: 8px;
+  }
+}
+
