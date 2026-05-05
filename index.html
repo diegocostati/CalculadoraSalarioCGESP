@@ -125,19 +125,19 @@
 
   <div style="text-align:center; margin-top:30px; color:#6b7280;">
   <small>
-    👀 Este simulador já foi utilizado <strong id="contador">...</strong> vezes
+    👀 Este simulador já foi utilizado <strong id="contador">...</strong> vezes <br>
   </small>
 </div>
 
 <script>
-fetch("https://api.countapi.xyz/hit/calculadora-cge-sp-diego/visitas")
+fetch("https://counterapi.dev/api/cge-sp-simulador-diego-2026/visitas/up")
   .then(res => res.json())
   .then(data => {
     document.getElementById("contador").innerText =
-      data.value.toLocaleString("pt-BR");
+      data.count.toLocaleString("pt-BR");
   })
   .catch(() => {
-    document.getElementById("contador").innerText = "—";
+    document.getElementById("contador").innerText = "indisponível";
   });
 </script>
   
