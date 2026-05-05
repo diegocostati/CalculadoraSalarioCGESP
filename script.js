@@ -23,20 +23,29 @@ const tabela = [
 const PREVIDENCIA_FIXA = 1186.57;
 const AUXILIO = 1320;
 const DEDUCAO_DEP = 189.59;
+const TETO_INSS = 8475.55;
+const LIMITE_PREV_COMP = 7.5;
+
+function formatarMoeda(valor) {
+  return valor.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+}
 
 function popular() {
-  const niveis = [...new Set(tabela.map(t=>t.nivel))];
+  const niveis = [...new Set(tabela.map(t => t.nivel))];
   const selNivel = document.getElementById("nivel");
   const selCategoria = document.getElementById("categoria");
 
-  niveis.forEach(n=>{
+  niveis.forEach(n => {
     let o = document.createElement("option");
     o.value = n;
     o.text = n;
     selNivel.appendChild(o);
   });
 
-  for(let i=1;i<=4;i++){
+  for (let i = 1; i <= 4; i++) {
     let o = document.createElement("option");
     o.value = i;
     o.text = i;
@@ -44,41 +53,79 @@ function popular() {
   }
 }
 
-function calcularIR(base){
-  if(base <= 2428.80) return 0;
-  if(base <= 2826.65) return base*0.075 - 182.16;
-  if(base <= 3751.05) return base*0.15 - 394.16;
-  if(base <= 4664.68) return base*0.225 - 675.49;
-  return base*0.275 - 908.73;
+function alternarPrevComp() {
+  const usaPrevComp = document.getElementById("usaPrevComp").value;
+  const campoPrevComp = document.getElementById("prevComp");
+
+  if (usaPrevComp === "sim") {
+    campoPrevComp.value = 7.5;
+  } else {
+    campoPrevComp.value = 0;
+  }
+
+  calcular();
 }
 
-function calcular(){
+function calcularIR(base) {
+  if (base <= 2428.80) return 0;
+  if (base <= 2826.65) return base * 0.075 - 182.16;
+  if (base <= 3751.05) return base * 0.15 - 394.16;
+  if (base <= 4664.68) return base * 0.225 - 675.49;
+  return base * 0.275 - 908.73;
+}
+
+function calcular() {
   const nivel = document.getElementById("nivel").value;
   const cat = parseInt(document.getElementById("categoria").value);
-  const iamspePerc = document.getElementById("iamspe").value/100;
+  const iamspePerc = parseFloat(document.getElementById("iamspe").value) / 100;
 
-  const dependentes = document.getElementById("dependentes").value;
-  const pensaoPerc = document.getElementById("pensao").value/100;
-  const prevCompPerc = document.getElementById("prevComp").value/100;
+  const dependentes = parseInt(document.getElementById("dependentes").value) || 0;
+  const pensaoPerc = (parseFloat(document.getElementById("pensao").value) || 0) / 100;
   const outros = parseFloat(document.getElementById("outros").value) || 0;
 
-  const dado = tabela.find(t => t.nivel==nivel && t.cat==cat);
+  let prevCompPercentual = parseFloat(document.getElementById("prevComp").value) || 0;
+
+  if (prevCompPercentual > LIMITE_PREV_COMP) {
+    prevCompPercentual = LIMITE_PREV_COMP;
+    document.getElementById("prevComp").value = LIMITE_PREV_COMP;
+  }
+
+  if (prevCompPercentual < 0) {
+    prevCompPercentual = 0;
+    document.getElementById("prevComp").value = 0;
+  }
+
+  const prevCompPerc = prevCompPercentual / 100;
+
+  const dado = tabela.find(t => t.nivel === nivel && t.cat === cat);
+
+  if (!dado) {
+    document.getElementById("resultado").innerHTML = `
+      <p>Não foi possível encontrar o nível e categoria selecionados.</p>
+    `;
+    return;
+  }
 
   const subsidio = dado.subs;
 
   const iamspe = subsidio * iamspePerc;
   const pensao = subsidio * pensaoPerc;
-  const prevComp = subsidio * prevCompPerc;
+
+  const basePrevComp = Math.max(0, subsidio - TETO_INSS);
+  const prevComp = basePrevComp * prevCompPerc;
+  const contrapartidaPatrocinador = prevComp;
+
+  const deducaoDependentes = dependentes * DEDUCAO_DEP;
 
   const baseIR =
     subsidio
     - PREVIDENCIA_FIXA
     - iamspe
-    - (dependentes * DEDUCAO_DEP)
+    - deducaoDependentes
     - pensao
     - prevComp;
 
-  const ir = calcularIR(baseIR);
+  const ir = Math.max(0, calcularIR(baseIR));
 
   const liquido =
     subsidio
@@ -91,16 +138,28 @@ function calcular(){
 
   const liquidoComAux = liquido + AUXILIO;
 
- document.getElementById("resultado").innerHTML = `
-  Subsídio: R$ ${subsidio.toFixed(2)} <br>
-  IAMSPE: R$ ${iamspe.toFixed(2)} <br>
-  IR: R$ ${ir.toFixed(2)} <br>
-  Pensão: R$ ${pensao.toFixed(2)} <br>
-  Previdência Complementar: R$ ${prevComp.toFixed(2)} <br>
-  Outros descontos: R$ ${outros.toFixed(2)} <br>
-  Líquido: R$ ${liquido.toFixed(2)} <br>
-  Líquido + Aux: R$ ${liquidoComAux.toFixed(2)}
-`;
+  document.getElementById("resultado").innerHTML = `
+    <strong>Resultado da simulação</strong><br><br>
+
+    Subsídio: ${formatarMoeda(subsidio)} <br>
+    Previdência obrigatória: ${formatarMoeda(PREVIDENCIA_FIXA)} <br>
+    IAMSPE: ${formatarMoeda(iamspe)} <br>
+    IR: ${formatarMoeda(ir)} <br>
+    Pensão: ${formatarMoeda(pensao)} <br>
+    Dedução por dependentes: ${formatarMoeda(deducaoDependentes)} <br>
+    Outros descontos: ${formatarMoeda(outros)} <br><br>
+
+    <strong>Previdência complementar</strong><br>
+    Teto do INSS: ${formatarMoeda(TETO_INSS)} <br>
+    Base da previdência complementar: ${formatarMoeda(basePrevComp)} <br>
+    Percentual escolhido: ${prevCompPercentual.toFixed(1).replace(".", ",")}% <br>
+    Contribuição do servidor: ${formatarMoeda(prevComp)} <br>
+    Contrapartida do patrocinador: ${formatarMoeda(contrapartidaPatrocinador)} <br><br>
+
+    <strong>Salário líquido: ${formatarMoeda(liquido)}</strong><br>
+    <strong>Salário líquido + auxílio: ${formatarMoeda(liquidoComAux)}</strong>
+  `;
 }
 
 popular();
+calcular();
