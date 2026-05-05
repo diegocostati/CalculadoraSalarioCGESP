@@ -76,23 +76,22 @@ function calcularIR(base) {
 }
 
 function calcularPrevidenciaRPPSProgressiva(base) {
+  let contribuicao = 0;
+
   const faixas = [
     { limite: 1621.00, aliquota: 0.11 },
-    { limite: 3242.00, aliquota: 0.12 },
-    { limite: 4863.00, aliquota: 0.13 },
-    { limite: 8105.00, aliquota: 0.14 },
-    { limite: 16210.00, aliquota: 0.15 },
+    { limite: 4174.58, aliquota: 0.12 },
+    { limite: 8475.55, aliquota: 0.14 },
     { limite: Infinity, aliquota: 0.16 }
   ];
 
-  let total = 0;
   let anterior = 0;
 
   for (const faixa of faixas) {
-    const baseFaixa = Math.min(base, faixa.limite) - anterior;
+    const valorFaixa = Math.min(base, faixa.limite) - anterior;
 
-    if (baseFaixa > 0) {
-      total += baseFaixa * faixa.aliquota;
+    if (valorFaixa > 0) {
+      contribuicao += valorFaixa * faixa.aliquota;
     }
 
     anterior = faixa.limite;
@@ -100,7 +99,7 @@ function calcularPrevidenciaRPPSProgressiva(base) {
     if (base <= faixa.limite) break;
   }
 
-  return total;
+  return contribuicao;
 }
 
 function calcular() {
