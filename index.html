@@ -123,23 +123,11 @@
 
   <script src="script.js"></script>
 
-  <div style="text-align:center; margin-top:30px; color:#6b7280;">
-  <small>
-    👀 Este simulador já foi utilizado <strong id="contador">...</strong> vezes <br>
-  </small>
+<div style="text-align:center; margin-top:30px;">
+  <div class="powr-hit-counter" id="41080198"></div>
 </div>
 
-<script>
-fetch("https://counterapi.dev/api/cge-sp-simulador-diego-2026/visitas/up")
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("contador").innerText =
-      data.count.toLocaleString("pt-BR");
-  })
-  .catch(() => {
-    document.getElementById("contador").innerText = "indisponível";
-  });
-</script>
+<script src="https://www.powr.io/powr.js?platform=html"></script>
   
 </body>
 </html>
