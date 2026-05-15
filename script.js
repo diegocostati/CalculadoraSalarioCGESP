@@ -20,7 +20,7 @@ const tabela = [
   { nivel: "IV", cat: 4, subs: 27809.72 },
 ];
 
-const PREVIDENCIA_FIXA = 1186.57;
+const PREVIDENCIA_FIXA = 1086.88;
 const AUXILIO = 1320;
 const DEDUCAO_DEP = 189.59;
 const TETO_INSS = 8475.55;
