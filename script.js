@@ -21,7 +21,7 @@ const tabela = [
 ];
 
 const PREVIDENCIA_FIXA = 1086.88;
-const AUXILIO = 1320;
+const AUXILIO = 1782;
 const DEDUCAO_DEP = 189.59;
 const TETO_INSS = 8475.55;
 const LIMITE_PREV_COMP = 7.5;
